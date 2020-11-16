@@ -2,6 +2,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class AddressBookDBOTest {
@@ -32,5 +33,10 @@ public class AddressBookDBOTest {
     public void check_RetrieveNumContactsByCity(){
         int count = dbo.retrieveContactsByCity("GGN");
         Assert.assertEquals(2, count);
+    }
+
+    @Test
+    public void check_AddContactUpdateAllables() throws SQLException {
+        dbo.addContactAtomicTransaction("5","Sumit","Sharma","12345","sumit@gmail.com","2019-03-10","Roorkee","Roorkee","HP","876101","Friends");
     }
 }

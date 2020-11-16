@@ -80,7 +80,6 @@ public class AddressBookDBOperations {
                 String phone = rs.getString(4);
                 String email = rs.getString(5);
                 String date = rs.getString(6);
-
                 Contact c = new Contact(cid,fname,lname,phone,email,date);
                 contacts.add(c);
             }
@@ -103,5 +102,38 @@ public class AddressBookDBOperations {
             e.printStackTrace();
         }
         return count;
+    }
+
+    public void addContactAtomicTransaction(String cid, String fname, String lname, String phone, String mail,
+                                        String date, String addr, String city, String state, String zip, String type) throws SQLException {
+
+        boolean result1 = false, result2 = false, result3 = false;
+        Connection con = ab_dbo.getDBConnection();
+        try{
+            con.setAutoCommit(false);
+            Statement stmt = con.createStatement();
+            String query1 = String.format("Insert into contact values ('" + cid + "','" + fname + "','" + lname + "','" + phone + "','" + mail + "','" + date + "');");
+            int result = stmt.executeUpdate(query1);
+            if(result == 1)
+                result1 = true;
+
+            String query2 = String.format("Insert into address_details values ('" + cid + "','" + addr + "','" + city + "','" + state + "','" + zip + "');");
+            result = stmt.executeUpdate(query2);
+            if(result == 1)
+                result2 = true;
+
+            String query3 = String.format("Insert into type values ('" + cid + "','" + type + "');");
+            result = stmt.executeUpdate(query3);
+            if(result == 1)
+                result3 = true;
+
+            if(result1 && result2 && result3)
+                con.commit();
+        }catch (SQLException e){
+            e.printStackTrace();
+            con.rollback();
+        }finally {
+            con.close();
+        }
     }
 }
