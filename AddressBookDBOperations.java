@@ -136,4 +136,38 @@ public class AddressBookDBOperations {
             con.close();
         }
     }
+
+    public void addContactsWithThread(List<Contact> contacts) {
+        contacts.forEach(contact ->{
+            Runnable task = () -> {
+                try {
+                    this.addContactAtomicTransaction(contact.getCid(), contact.getFirstName(), contact.getLastName(), contact.getPhNo(),
+                                                     contact.getEmail(), contact.getDate(), contact.getAddress(), contact.getCity(),
+                                                     contact.getState(), contact.getZipcode(), contact.getType());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            };
+            Thread thread =  new Thread(task);
+            thread.start();
+        });
+        try{
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int countNumEntries() throws SQLException {
+        int count = 0;
+        try(Connection con = this.getDBConnection()){
+            String query = "select count(contact_id) from contact ";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+        }
+        return count;
+    }
 }

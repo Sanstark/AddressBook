@@ -32,6 +32,14 @@ public class Contact implements Serializable {
         this.cid = cid;
         this.date = date;
     }
+    public Contact(String cid, String firstName, String lastName, String phNo, String email, String date,String address, String city, String state, String zipcode,String type){
+        this(cid,firstName,lastName,phNo,email,date);
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.type = type;
+    }
 
     public Contact(String firstName, String lastName, String address, String city, String state, String zipcode, String phNo,
                    String email) {
@@ -47,14 +55,7 @@ public class Contact implements Serializable {
     }
 
     public Contact(String firstName, String lastName, String address,String city, String state, String zipcode, String phNo, String email, String type) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
-        this.phNo = phNo;
-        this.address = address;
-        this.email = email;
+        this(firstName,lastName,address,city,state,zipcode,phNo,email);
         this.type = type;
     }
 
@@ -108,6 +109,18 @@ public class Contact implements Serializable {
     }
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    public String getCid() { return cid; }
+    public void setCid(String cid) { this.cid = cid; }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
