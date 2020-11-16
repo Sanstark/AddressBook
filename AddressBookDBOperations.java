@@ -28,21 +28,23 @@ public class AddressBookDBOperations {
     public List<Contact> retrieveDataFromDB(){
         List<Contact> contactList = new ArrayList<>();
         try(Connection con = ab_dbo.getDBConnection()){
-            String query = "Select * from address_book";
+            String query = "Select * from contact";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
-                String fname = rs.getString(1);
-                String lname = rs.getString(2);
-                String address = rs.getString(3);
-                String city = rs.getString(4);
-                String state = rs.getString(5);
-                String zipcode = rs.getString(6);
-                String phone = rs.getString(7);
-                String mail = rs.getString(8);
-                String type = rs.getString(9);
+                String id = rs.getString(1);
+                String fname = rs.getString(2);
+                String lname = rs.getString(3);
+//                String address = rs.getString(3);
+//                String city = rs.getString(4);
+//                String state = rs.getString(5);
+//                String zipcode = rs.getString(6);
+                String phone = rs.getString(4);
+                String mail = rs.getString(5);
+//
+                String date = rs.getString(6);
 
-                Contact c = new Contact(fname,lname,address,city,state,zipcode,phone,mail,type);
+                Contact c = new Contact(id,fname,lname,phone,mail,date);
                 contactList.add(c);
             }
         }catch (SQLException e){
