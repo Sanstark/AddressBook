@@ -89,4 +89,19 @@ public class AddressBookDBOperations {
         }
         return contacts;
     }
+
+    public int retrieveContactsByCity(String city) {
+        int count = 0;
+        try(Connection con = ab_dbo.getDBConnection()){
+            String query = String.format("Select count(contact_id) from address_details where city = '" + city + "'");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

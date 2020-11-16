@@ -27,4 +27,10 @@ public class AddressBookDBOTest {
         List<Contact> list = dbo.retrieveContactWithinDateRange("2019-02-01","2019-10-01");
         Assert.assertEquals(2, list.size());
     }
+
+    @Test
+    public void check_RetrieveNumContactsByCity(){
+        int count = dbo.retrieveContactsByCity("GGN");
+        Assert.assertEquals(2, count);
+    }
 }
